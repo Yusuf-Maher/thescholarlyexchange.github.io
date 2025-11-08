@@ -22,6 +22,10 @@ h1{
   display: block;
   text-align: center;
 }
+
+.home {
+  text-align: center;
+}
 .navbar a:hover{
   background-color: rgb(50, 50, 50);
 }

@@ -1,33 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recent Publications</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recent Publications</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="RecentPublications.html" class="active">Recent Publications</a></li>
+      <li><a href="PeerReviewNetwork.html">Peer Review Network</a></li>
+      <li><a href="Login.html">Login</a></li>
+      <li><a href="register.html">Registration</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main content -->
+  <main>
     <h1>Recent Publications</h1>
-    <nav class="navbar">
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="RecentPublications.html">Recent Publications</a></li>
-            <li><a href="PeerReviewNetwork.html">Peer Review Network</a></li>
-            <li><a href="Login.html">Login</a></li>
-            <li><a href="register.html">Regiestration</a></li>
-        </ul>
-    </nav>
 
-    <main>
+    <!-- Search bar -->
+    <input 
+      type="text" 
+      id="searchBar" 
+      placeholder="Search your papers or arXiv..." 
+      style="width: 60%; padding: 8px; margin: 15px 0;"
+    >
 
+    <!-- Your uploaded PDFs -->
+    <section>
+      <h2>My Papers</h2>
+      <div id="publications"></div>
+    </section>
 
-        <!-- Search bar -->
-        <input type="text" id="searchBar" placeholder="Search papers...">
+    <!-- Live arXiv results -->
+    <section>
+      <h2>arXiv Results</h2>
+      <div id="arxiv-results"></div>
+    </section>
+  </main>
 
-        <!-- Where results will appear -->
-        <div id="publications"></div>
-    </main>
-
-    <script type="module" src="scripts/publications.js"></script>
-</body>
-</html>
+  <!-- JS -->
+  <script type="module" src="scripts/publications.js"></script>
+</bod

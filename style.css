@@ -8,7 +8,7 @@ main{
 h1{
   text-align: center;
 }
-.navbar-container {
+.navbar {
   display: flex;
   justify-content: center; 
   align-items: center;

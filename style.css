@@ -8,12 +8,6 @@ main{
 h1{
   text-align: center;
 }
-.navbar {
-  display: flex;
-  justify-content: center; 
-  align-items: center;
-  width: 100%;
-}
 .navbar ul{
   list-style-type: none;
   background-color: rgb(95, 94, 94);

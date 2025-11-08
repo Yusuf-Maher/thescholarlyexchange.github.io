@@ -1,8 +1,10 @@
 // scripts/publications.js
 
 async function fetchArxivPapers(query, maxResults = 5) {
+  const container = document.getElementById("arxiv-results");
+
   if (!query) {
-    document.getElementById("arxiv-results").innerHTML = "";
+    container.innerHTML = "";
     return;
   }
 
@@ -15,9 +17,7 @@ async function fetchArxivPapers(query, maxResults = 5) {
     const parser = new DOMParser();
     const xml = parser.parseFromString(xmlText, "text/xml");
     const entries = xml.getElementsByTagName("entry");
-    const container = document.getElementById("arxiv-results");
 
-    // Clear old results
     container.innerHTML = "";
 
     if (entries.length === 0) {
@@ -25,7 +25,6 @@ async function fetchArxivPapers(query, maxResults = 5) {
       return;
     }
 
-    // Render each entry
     for (let entry of entries) {
       const title = entry.getElementsByTagName("title")[0]?.textContent.trim() || "No title";
       const summary = entry.getElementsByTagName("summary")[0]?.textContent.trim() || "No summary";
@@ -35,11 +34,15 @@ async function fetchArxivPapers(query, maxResults = 5) {
         .map(a => a.getElementsByTagName("name")[0]?.textContent)
         .join(", ");
 
+      // ✅ Highlight keywords in title and summary
+      const highlightedTitle = highlightMatch(title, query);
+      const highlightedSummary = highlightMatch(summary.slice(0, 250), query);
+
       container.innerHTML += `
         <div class="arxiv-card" style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
-          <h3>${title}</h3>
+          <h3>${highlightedTitle}</h3>
           <p><strong>Authors:</strong> ${authors}</p>
-          <p>${summary.slice(0, 250)}...</p>
+          <p>${highlightedSummary}...</p>
           <a href="${pdfLink}" target="_blank">📄 View PDF</a> |
           <a href="${link}" target="_blank">🔗 View on arXiv</a>
         </div>
@@ -47,8 +50,15 @@ async function fetchArxivPapers(query, maxResults = 5) {
     }
   } catch (error) {
     console.error("Error fetching arXiv papers:", error);
-    document.getElementById("arxiv-results").innerHTML = "<p>Error loading results.</p>";
+    container.innerHTML = "<p>Error loading results.</p>";
   }
+}
+
+// ✅ Highlighting function
+function highlightMatch(text, keyword) {
+  if (!keyword) return text;
+  const regex = new RegExp(`(${keyword})`, "gi");
+  return text.replace(regex, "<mark>$1</mark>");
 }
 
 // --- Event Listener ---
@@ -60,6 +70,6 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchArxivPapers(query);
   });
 
-  // Optional: load default topic
+  // Optional: default topic on page load
   fetchArxivPapers("dopamine");
 });

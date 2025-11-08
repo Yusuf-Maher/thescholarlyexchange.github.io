@@ -8,6 +8,12 @@ main{
 h1{
   text-align: center;
 }
+.navbar-container {
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  width: 100%;
+}
 .navbar ul{
   list-style-type: none;
   background-color: rgb(95, 94, 94);
@@ -22,7 +28,9 @@ h1{
   display: block;
   text-align: center;
 }
-
+.navbar li {
+  float: centre;
+}
 .home {
   text-align: center;
 }

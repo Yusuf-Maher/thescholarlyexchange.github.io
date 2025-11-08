@@ -25,6 +25,3 @@ h1{
 .navbar a:hover{
   background-color: rgb(50, 50, 50);
 }
-.navbar li{
-  float: left;
-}

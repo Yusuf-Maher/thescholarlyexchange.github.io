@@ -271,7 +271,6 @@ registerForm.addEventListener("submit", e => {
   const password = document.getElementById("password").value.trim();
   const field = fieldInput.value.trim();
   const academicLink = document.getElementById("academicLink").value.trim();
-  const researchAreas = document.getElementById("researchAreas").value.trim().split(",").map(s => s.trim());
   const workplace = document.getElementById("workplace").value.trim();
   const educationLevel = document.getElementById("educationLevel").value;
   const researcherId = document.getElementById("researcherId").value.trim();
@@ -301,7 +300,6 @@ registerForm.addEventListener("submit", e => {
     password,
     field,
     academicLink,
-    researchAreas,
     workplace,
     educationLevel,
     researcherId,

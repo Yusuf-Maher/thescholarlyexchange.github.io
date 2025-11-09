@@ -31,3 +31,13 @@ h1{
 .navbar a:hover{
   background-color: rgb(50, 50, 50);
 }
+#haveAccount {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+#haveAccount a {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}

@@ -11,17 +11,24 @@ document.getElementById("loginForm").addEventListener("submit", function(e) {
   // Check if user exists
   const user = users.find(user => user.username === username && user.password === password);
 
-  if (user) {
-    message.textContent = "Login successful!";
-    message.style.color = "green";
+if (user) {
+  message.textContent = "Login successful!";
+  message.style.color = "green";
 
-    // Save logged-in user in localStorage (optional)
-    localStorage.setItem("loggedInUser", username);
+  // Save logged-in user in localStorage
+  localStorage.setItem("loggedInUser", username);
 
-    // Redirect to a protected page or home
-    setTimeout(() => {
-      window.location.href = "index.html";
-    }, 1000);
+  // Update navbar profile picture
+  const navbarProfilePic = document.getElementById("navbarProfilePic");
+  if (navbarProfilePic) {
+    navbarProfilePic.src = user.pfp || "default-profile.png";
+  }
+
+  const loginLink = document.getElementById("loginLink");
+  const registerLink = document.getElementById("registerLink");
+  if (loginLink) loginLink.style.display = "none";
+  if (registerLink) registerLink.style.display = "none";
+
   } else {
     message.textContent = "Invalid username or password!";
     message.style.color = "red";

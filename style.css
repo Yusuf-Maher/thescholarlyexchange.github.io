@@ -22,6 +22,204 @@ h1{
   display: block;
   text-align: center;
 }
+
+.container {
+  position: relative;
+  padding: 20px;
+  transition: 0.5s;
+  text-align: center;
+}
+
+.container.active {
+  filter: blur(20px);
+  pointer-events: none;
+  user-select: none;
+}
+
+
+.popup {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -40%);
+  padding: 35px;
+  box-shadow: 0 0px 10px rgba(0,0,0,0.5);
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.5s;
+  width: 40%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.popup button {
+  align-self: center;
+  padding: 5px 20px;
+}
+
+.spacing {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.popup.active {
+  top: 50%;
+  visibility: visible;
+  opacity: 1;
+  transition: 0.5s;
+}
+
+#requestsList {
+  margin-top: 30px;
+  text-align: left;
+}
+
+#requestsTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+#requestsTable th,
+#requestsTable td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+#requestsTable th {
+  background-color: rgb(95, 94, 94);
+  color: white;
+  font-weight: bold;
+}
+
+#requestsTable tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+#requestsTable tr:hover {
+  background-color: #e0e0e0;
+}
+
+#requestsTable td button {
+  border: none;
+  padding: 6px 12px;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.view-btn {
+  background-color: #2196F3;
+  color: white;
+}
+
+.view-btn:hover {
+  background-color: #0b7dda;
+}
+
+.delete-btn {
+  background-color: #ff4444;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #cc0000;
+}
+
+#requestsTable a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+#requestsTable a:hover {
+  text-decoration: underline;
+}
+
+/* View popup styles */
+.popup-view {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 35px;
+  box-shadow: 0 0px 10px rgba(0,0,0,0.5);
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.5s;
+  width: 40%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: white;
+}
+
+.popup-view.active {
+  top: 50%;
+  visibility: visible;
+  opacity: 1;
+  transition: 0.5s;
+}
+
+.view-content {
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: left;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.view-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.view-buttons button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.view-buttons button:first-child {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.view-buttons button:first-child:hover {
+  background-color: #45a049;
+}
+
+.view-buttons button:last-child {
+  background-color: #999;
+  color: white;
+}
+
+.view-buttons button:last-child:hover {
+  background-color: #777;
+}
+.container button {
+  background-color: rgb(95, 94, 94);
+  color: white;
+  border: none;
+  padding: 10px 30px;
+  font-size: 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.container button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+}
 .navbar li {
   float: left;
 }

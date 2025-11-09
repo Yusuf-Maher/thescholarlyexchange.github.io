@@ -10,8 +10,12 @@ const message = document.getElementById("message");
 const pfpInput = document.getElementById("pfp");
 const pfpPreview = document.getElementById("pfpPreview");
 
+const defaultPfp = "default-profile.png";
+
+pfpPreview.src = defaultPfp;
+
 pfpInput.addEventListener("input", () => {
-  pfpPreview.src = pfpInput.value || "";
+  pfpPreview.src = pfpInput.value || defaultPfp;
 });
 
 // Searchable list of fields
@@ -24,7 +28,7 @@ const fields = [
   "Instrumentation and Methods for Astrophysics",
   "Solar and Stellar Astrophysics",
   
-  "----Condensed Matter----"
+  "----Condensed Matter----",
   "Disordered Systems and Neural Networks",
   "Materials Science",
   "Mesoscale and Nanoscale Physics",
@@ -35,10 +39,10 @@ const fields = [
   "Strongly Correlated Electrons",
   "Superconductivity",
   
-  "----General Relativity and Quantum Cosmology----"
+  "----General Relativity and Quantum Cosmology----",
   "General Relativity and Quantum Cosmology",
   
-  "----High Energy Physics----"
+  "----High Energy Physics----",
   "High Energy Physics - Experiment",
   "High Energy Physics - Lattice",
   "High Energy Physics - Phenomenology",
@@ -47,18 +51,18 @@ const fields = [
   // Mathematical Physics
   "Mathematical Physics",
   
-  "----Nonlinear Sciences----"
+  "----Nonlinear Sciences----",
   "Adaptation and Self-Organizing Systems",
   "Cellular Automata and Lattice Gases",
   "Chaotic Dynamics",
   "Exactly Solvable and Integrable Systems",
   "Pattern Formation and Solitons",
   
-  "----Nuclear Physics----"
+  "----Nuclear Physics----",
   "Nuclear Experiment",
   "Nuclear Theory",
   
-  "----Physics----"
+  "----Physics----",
   "Accelerator Physics",
   "Applied Physics",
   "Atmospheric and Oceanic Physics",
@@ -85,7 +89,7 @@ const fields = [
   //Quantum Physics
   "Quantum Physics",
   
-  "----Mathematics---"
+  "----Mathematics---",
   "Algebraic Geometry",
   "Algebraic Topology",
   "Analysis of PDEs",
@@ -119,7 +123,7 @@ const fields = [
   "Statistics Theory",
   "Symplectic Geometry",
   
-  "----Computer Science----"
+  "----Computer Science----",
   "Artificial Intelligence",
   "Computation and Language",
   "Computational Complexity",
@@ -161,7 +165,7 @@ const fields = [
   "Symbolic Computation",
   "Systems and Control",
   
-  "----Quantitative Biology----"
+  "----Quantitative Biology----",
   "Biomolecules",
   "Cell Behavior",
   "Genomics",
@@ -173,7 +177,7 @@ const fields = [
   "Subcellular Processes",
   "Tissues and Organs",
   
-  "----Quantitative Finance----"
+  "----Quantitative Finance----",
   "Computational Finance",
   "Economics",
   "General Finance",
@@ -184,7 +188,7 @@ const fields = [
   "Statistical Finance",
   "Trading and Market Microstructure",
   
-  "----Statistics----"
+  "----Statistics----",
   "Applications",
   "Computation",
   "Machine Learning",
@@ -192,13 +196,13 @@ const fields = [
   "Other Statistics",
   "Statistics Theory",
   
-  "----Electrical Engineering and Systems Science----"
+  "----Electrical Engineering and Systems Science----",
   "Audio and Speech Processing",
   "Image and Video Processing",
   "Signal Processing",
   "Systems and Control",
   
-  "----Economics----"
+  "----Economics----",
   "Econometrics",
   "General Economics",
   "Theoretical Economics"
@@ -272,7 +276,7 @@ registerForm.addEventListener("submit", e => {
   const educationLevel = document.getElementById("educationLevel").value;
   const researcherId = document.getElementById("researcherId").value.trim();
   const email = document.getElementById("email").value.trim();
-  const pfp = document.getElementById("pfp").value.trim();
+  const pfp = document.getElementById("pfp").value.trim() || defaultPfp;
   const bio = document.getElementById("bio").value.trim();
 
   const message = document.getElementById("message");

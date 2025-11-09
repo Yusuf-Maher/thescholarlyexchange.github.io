@@ -264,4 +264,14 @@ h1{
 .field-list li:hover {
   background-color: #f0f0f0;
 }
+.pfp-preview-container {
+  margin-top: 10px;
+}
 
+#pfpPreview {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ccc;
+}

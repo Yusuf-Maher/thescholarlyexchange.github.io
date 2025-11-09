@@ -5,17 +5,19 @@ const fieldList = document.getElementById("fieldList");
 const passwordInput = document.getElementById("password");
 const passwordMessage = document.getElementById("passwordMessage");
 const registerForm = document.getElementById("registerForm");
+const message = document.getElementById("message");
 const pfpInput = document.getElementById("pfp");
 const pfpPreview = document.getElementById("pfpPreview");
-const message = document.getElementById("message");
 
 const defaultPfp = "default-profile.png";
+
 pfpPreview.src = defaultPfp;
 
 pfpInput.addEventListener("input", () => {
   pfpPreview.src = pfpInput.value || defaultPfp;
 });
 
+// Searchable list of fields
 const fields = [
   "----Astrophysics----",
   "Astrophysics of Galaxies",
@@ -26,13 +28,48 @@ const fields = [
   "Solar and Stellar Astrophysics",
 
   "----Condensed Matter----",
+
   "Disordered Systems and Neural Networks",
   "Materials Science",
   "Mesoscale and Nanoscale Physics",
   "Strongly Correlated Electrons",
   "Superconductivity",
 
-  "----Mathematics----",
+  "----General Relativity and Quantum Cosmology----",
+
+  "General Relativity and Quantum Cosmology",
+
+  "----High Energy Physics----",
+
+  "High Energy Physics - Experiment",
+  "High Energy Physics - Lattice",
+  "High Energy Physics - Phenomenology",
+  // Mathematical Physics
+  "Mathematical Physics",
+
+  "----Nonlinear Sciences----",
+
+  "Adaptation and Self-Organizing Systems",
+  "Cellular Automata and Lattice Gases",
+  "Chaotic Dynamics",
+  "Exactly Solvable and Integrable Systems",
+  "Pattern Formation and Solitons",
+
+  "----Nuclear Physics----",
+
+  "Nuclear Experiment",
+  "Nuclear Theory",
+
+  "----Physics----",
+
+  "Accelerator Physics",
+  "Applied Physics",
+  "Atmospheric and Oceanic Physics",
+  //Quantum Physics
+  "Quantum Physics",
+
+  "----Mathematics---",
+
   "Algebraic Geometry",
   "Algebraic Topology",
   "Analysis of PDEs",
@@ -40,27 +77,101 @@ const fields = [
   "Symplectic Geometry",
 
   "----Computer Science----",
+
   "Artificial Intelligence",
   "Computation and Language",
   "Computational Complexity",
   "Symbolic Computation",
   "Systems and Control",
+
+  "----Quantitative Biology----",
+
+  "Biomolecules",
+  "Cell Behavior",
+  "Genomics",
+  "Subcellular Processes",
+  "Tissues and Organs",
+
+  "----Quantitative Finance----",
+
+  "Computational Finance",
+  "Economics",
+  "General Finance",
+  "Statistical Finance",
+  "Trading and Market Microstructure",
+
+  "----Statistics----",
+
+  "Applications",
+  "Computation",
+  "Machine Learning",
+  "Methodology",
+  "Other Statistics",
+  "Statistics Theory",
+
+  "----Electrical Engineering and Systems Science----",
+
+  "Audio and Speech Processing",
+  "Image and Video Processing",
+  "Signal Processing",
+  "Systems and Control",
+
+  "----Economics----",
+
+  "Econometrics",
+  "General Economics",
+  "Theoretical Economics"
 ];
 
 passwordInput.addEventListener("input", () => {
-  passwordMessage.textContent =
-    passwordInput.value.length < 8 ? "Password must be at least 8 characters!" : "";
+  if (passwordInput.value.length < 8) {
+    passwordMessage.textContent = "Password must be at least 8 characters!";
+  } else {
+    passwordMessage.textContent = "";
+  }
 });
 
 fieldInput.addEventListener("focus", () => {
-  renderFieldList(fields);
+  fieldList.innerHTML = "";
+  
+  fields.forEach(f => {
+    const li = document.createElement("li");
+    li.textContent = f;
+    li.addEventListener("click", () => {
+      fieldInput.value = f;
+      fieldList.style.display = "none";
+    });
+    fieldList.appendChild(li);
+  });
+
+  fieldList.style.display = "block";
 });
 
+// Filter as you type
 fieldInput.addEventListener("input", () => {
   const query = fieldInput.value.toLowerCase();
+  fieldList.innerHTML = "";
+
   const filtered = fields.filter(f => f.toLowerCase().includes(query));
-  renderFieldList(filtered);
+
+  if (filtered.length === 0) {
+    fieldList.style.display = "none";
+    return;
+  }
+
+  filtered.forEach(f => {
+    const li = document.createElement("li");
+    li.textContent = f;
+    li.addEventListener("click", () => {
+      fieldInput.value = f;
+      fieldList.style.display = "none";
+    });
+    fieldList.appendChild(li);
+  });
+
+  fieldList.style.display = "block";
 });
+
 
 document.addEventListener("click", (e) => {
   if (!fieldInput.contains(e.target) && !fieldList.contains(e.target)) {
@@ -68,31 +179,11 @@ document.addEventListener("click", (e) => {
   }
 });
 
-function renderFieldList(list) {
-  fieldList.innerHTML = "";
-  list.forEach(f => {
-    const li = document.createElement("li");
-    li.textContent = f;
-    if (f.startsWith("----")) {
-      li.classList.add("divider");
-      li.style.pointerEvents = "none";
-      li.style.color = "gray";
-      li.style.fontWeight = "bold";
-    } else {
-      li.addEventListener("click", () => {
-        fieldInput.value = f;
-        fieldList.style.display = "none";
-      });
-    }
-    fieldList.appendChild(li);
-  });
-  fieldList.style.display = "block";
-}
-
 registerForm.addEventListener("submit", e => {
   e.preventDefault();
+  
   const username = document.getElementById("username").value.trim();
-  const password = passwordInput.value.trim();
+  const password = document.getElementById("password").value.trim();
   const field = fieldInput.value.trim();
   const academicLink = document.getElementById("academicLink").value.trim();
   const workplace = document.getElementById("workplace").value.trim();
@@ -102,19 +193,24 @@ registerForm.addEventListener("submit", e => {
   const pfp = document.getElementById("pfp").value.trim() || defaultPfp;
   const bio = document.getElementById("bio").value.trim();
 
+  const message = document.getElementById("message");
+
   if (password.length < 8) {
     message.textContent = "Password must be at least 8 characters!";
     message.style.color = "red";
     return;
   }
 
-  if (users.find(u => u.username === username)) {
+  // Check if username already exists
+  const userExists = users.find(user => user.username === username);
+  if (userExists) {
     message.textContent = "Username already taken!";
     message.style.color = "red";
     return;
   }
 
-  const newUser = {
+  // Save new user
+  users.push({
     username,
     password,
     field,
@@ -125,14 +221,14 @@ registerForm.addEventListener("submit", e => {
     email,
     pfp,
     bio
-  };
+  });
 
-  users.push(newUser);
   localStorage.setItem("users", JSON.stringify(users));
 
   message.textContent = "Registration successful!";
   message.style.color = "green";
 
+  // Redirect to login page after 1 second
   setTimeout(() => {
     window.location.href = "login.html";
   }, 1000);

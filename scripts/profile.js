@@ -18,6 +18,11 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
+  const navbarProfilePic = document.getElementById("navbarProfilePic");
+if (navbarProfilePic) {
+  navbarProfilePic.src = currentUser.pfp || "default-profile.png";
+}
+  
   // Fill in the profile fields
   document.getElementById("profilePic").src = currentUser.pfp || "default-profile.png";
   document.getElementById("usernameDisplay").textContent = currentUser.username;

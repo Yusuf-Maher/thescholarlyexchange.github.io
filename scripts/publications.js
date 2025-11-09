@@ -125,8 +125,6 @@ document.addEventListener("DOMContentLoaded", () => {
     renderPapers();
   });
 
-  // Default load
-  fetchArxivPapers("dopamine");
 });
 
 

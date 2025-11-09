@@ -3,28 +3,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const users = JSON.parse(localStorage.getItem("users")) || [];
 
   if (!user) {
-    // If not logged in, redirect to login page
     window.location.href = "login.html";
     return;
   }
 
-  // Find the full user data from the list
   const currentUser = users.find(u => u.username === user.username);
-
   if (!currentUser) {
-    alert("User data not found.");
+    alert("User not found.");
     window.location.href = "login.html";
     return;
   }
 
-  // Fill in the profile fields
-  document.getElementById("profilePic").src = currentUser.pfp || "default-pfp.png";
+  const defaultPfp = "default-profile.png";
+
+  document.getElementById("profilePic").src = currentUser.pfp || defaultPfp;
   document.getElementById("usernameDisplay").textContent = currentUser.username;
   document.getElementById("fieldDisplay").textContent = currentUser.field || "Not specified";
   document.getElementById("workplaceDisplay").textContent = currentUser.workplace || "N/A";
-  document.getElementById("educationDisplay").textContent = currentUser.education || "N/A";
-  document.getElementById("researchDisplay").textContent = currentUser.researchAreas || "N/A";
-  
+  document.getElementById("educationDisplay").textContent = currentUser.educationLevel || "N/A";
+  document.getElementById("bioDisplay").textContent = currentUser.bio || "No bio yet.";
+
   const link = document.getElementById("academicLinkDisplay");
   if (currentUser.academicLink) {
     link.href = currentUser.academicLink;
@@ -34,9 +32,15 @@ document.addEventListener("DOMContentLoaded", () => {
     link.removeAttribute("href");
   }
 
-  document.getElementById("bioDisplay").textContent = currentUser.bio || "No bio yet.";
+  // Navbar profile picture
+  const navPic = document.getElementById("navProfilePic");
+  navPic.src = currentUser.pfp || defaultPfp;
 
-  // Logout functionality
+  const dropdown = document.getElementById("profileDropdown");
+  navPic.addEventListener("click", () => {
+    dropdown.classList.toggle("show");
+  });
+
   document.getElementById("logoutBtn").addEventListener("click", () => {
     localStorage.removeItem("loggedInUser");
     window.location.href = "login.html";

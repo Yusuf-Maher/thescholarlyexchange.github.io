@@ -15,22 +15,95 @@
     </ul>
   </nav>
 
-  <main>
-    <h2>Register</h2>
-    <form id="registerForm">
-      <label>Username:</label><br>
-      <input type="text" id="username" required><br><br>
-      <label>Password:</label><br>
-      <input type="password" id="password" required><br><br>
+ <main>
+  <h2>Register</h2>
+  <form id="registerForm">
+
+    <div class="form-group">
+      <label for="username">Username:</label>
+      <input type="text" id="username" required>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input type="password" id="password" required>
       <p id="passwordMessage" style="color:red; font-size:14px;"></p>
-      <button type="submit">Register</button>
-    </form>
-    <p id="message"></p>
-      <p id="haveAccount">
-    Already have an account? 
-    <a href="login.html">Login here</a>
+    </div>
+
+    <div class="form-group">
+      <label for="role">Role:</label>
+      <select id="role" required>
+        <option value="">Select role</option>
+        <option value="Reviewer">Reviewer</option>
+        <option value="Publisher">Publisher</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="field">Field/Expertise:</label>
+      <select id="field" required>
+        <option value="">Select field</option>
+        <option value="Biology">Biology</option>
+        <option value="Chemistry">Chemistry</option>
+        <option value="Physics">Physics</option>
+        <option value="Literature">Literature</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="academicLink">Link to academic profile (Google Scholar, Archive, etc.):</label>
+      <input type="url" id="academicLink">
+    </div>
+
+    <div class="form-group">
+      <label for="researchAreas">Areas of research/interest:</label>
+      <input type="text" id="researchAreas" placeholder="Separate with commas">
+    </div>
+
+    <div class="form-group">
+      <label for="workplace">Workplace / Employment:</label>
+      <input type="text" id="workplace">
+    </div>
+
+    <div class="form-group">
+      <label for="educationLevel">Level of education:</label>
+      <select id="educationLevel">
+        <option value="">Select level</option>
+        <option value="Bachelor">Bachelor</option>
+        <option value="Master">Master</option>
+        <option value="PhD">PhD</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="researcherId">ORCID / Researcher ID:</label>
+      <input type="text" id="researcherId">
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email (will not be shown publicly):</label>
+      <input type="email" id="email">
+    </div>
+
+    <div class="form-group">
+      <label for="pfp">Profile Picture URL:</label>
+      <input type="url" id="pfp">
+    </div>
+
+    <div class="form-group">
+      <label for="bio">Short Bio:</label>
+      <textarea id="bio" rows="4" placeholder="Write a short bio"></textarea>
+    </div>
+
+    <button type="submit">Register</button>
+  </form>
+
+  <p id="message"></p>
+  <p id="haveAccount">
+    Already have an account? <a href="login.html">Login here</a>
   </p>
-  </main>
+</main>
 
   <script src="scripts/register.js"></script>
 </body>

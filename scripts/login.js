@@ -1,3 +1,4 @@
+// Load users from localStorage
 let users = JSON.parse(localStorage.getItem("users")) || [];
 
 document.getElementById("loginForm").addEventListener("submit", function(e) {
@@ -7,14 +8,17 @@ document.getElementById("loginForm").addEventListener("submit", function(e) {
   const password = document.getElementById("loginPassword").value.trim();
   const message = document.getElementById("loginMessage");
 
-  const user = users.find(u => u.username === username && u.password === password);
+  // Check if user exists
+  const user = users.find(user => user.username === username && user.password === password);
 
   if (user) {
     message.textContent = "Login successful!";
     message.style.color = "green";
 
-    localStorage.setItem("loggedInUser", JSON.stringify(user));
+    // Save logged-in user in localStorage (optional)
+    localStorage.setItem("loggedInUser", username);
 
+    // Redirect to a protected page or home
     setTimeout(() => {
       window.location.href = "index.html";
     }, 1000);

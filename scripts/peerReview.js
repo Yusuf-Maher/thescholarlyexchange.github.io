@@ -117,13 +117,20 @@ function displayRequests() {
   
   // Check if there are requests
   if (titles.length === 0) {
-    requestsBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">No requests yet</td></tr>';
+    requestsBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No requests yet</td></tr>';
     return;
   }
+  
+  // Get all users to look up field of research
+  const users = JSON.parse(localStorage.getItem("users")) || [];
   
   // Create table rows for each request
   for (let i = 0; i < titles.length; i++) {
     const tr = document.createElement('tr');
+    
+    // Find the user who created this request
+    const requestUser = users.find(u => u.username === usernames[i]);
+    const fieldOfResearch = requestUser && requestUser.field ? requestUser.field : 'Not specified';
     
     // Check if this request belongs to the current user
     const isOwnRequest = currentUser && usernames[i] === currentUser.username;
@@ -140,6 +147,7 @@ function displayRequests() {
     
     tr.innerHTML = `
       <td>${usernames[i]}</td>
+      <td>${fieldOfResearch}</td>
       <td>${titles[i]}</td>
       <td><a href="${links[i]}" target="_blank">${links[i]}</a></td>
       <td>

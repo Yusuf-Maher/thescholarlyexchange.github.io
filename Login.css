@@ -5,8 +5,8 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: Georgia, serif;
+    background: linear-gradient(135deg, #1B3C53 0%, #234C6A 100%);
     min-height: 100vh;
 }
 
@@ -40,21 +40,6 @@ body {
     background-color: #575757;
 }
 
-/* Navbar profile picture */
-.navbar-profile-pic {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    vertical-align: middle;
-    border: 2px solid white;
-    transition: transform 0.2s;
-}
-
-.navbar-profile-pic:hover {
-    transform: scale(1.1);
-}
-
 /* Main content */
 main {
     max-width: 450px;
@@ -79,7 +64,7 @@ main {
 
 main h2 {
     text-align: center;
-    color: #667eea;
+    color: #234C6A;
     font-size: 32px;
     margin-bottom: 30px;
     font-weight: 600;
@@ -108,13 +93,14 @@ main h2 {
     transition: all 0.3s ease;
     background: #f8f9fa;
     margin-bottom: 10px;
+    font-family: Georgia, serif;
 }
 
 #loginForm input:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #456882;
     background: white;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    box-shadow: 0 0 0 3px rgba(69, 104, 130, 0.1);
 }
 
 #loginForm input::placeholder {
@@ -125,7 +111,7 @@ main h2 {
 #loginForm button[type="submit"] {
     width: 100%;
     padding: 14px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #234C6A 0%, #456882 100%);
     color: white;
     border: none;
     border-radius: 10px;
@@ -133,13 +119,13 @@ main h2 {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 4px 15px rgba(35, 76, 106, 0.4);
     margin-top: 20px;
 }
 
 #loginForm button[type="submit"]:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    box-shadow: 0 6px 20px rgba(35, 76, 106, 0.6);
 }
 
 #loginForm button[type="submit"]:active {
@@ -177,14 +163,14 @@ main h2 {
 }
 
 #noAccount a {
-    color: #667eea;
+    color: #456882;
     text-decoration: none;
     font-weight: 600;
     transition: color 0.3s ease;
 }
 
 #noAccount a:hover {
-    color: #764ba2;
+    color: #234C6A;
     text-decoration: underline;
 }
 

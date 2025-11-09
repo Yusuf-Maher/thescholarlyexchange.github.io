@@ -8,11 +8,10 @@
 </head>
 <body>
   <nav class="navbar">
-    <ul>
+    <ul class="nav-left">
       <li><a href="index.html">Home</a></li>
       <li><a href="login.html">Login</a></li>
-      <li><a href="register.html">Register</a></li>
-      <li><a href="profile.html">Profile</a></li>
+      <li><a href="register.html" class="active">Register</a></li>
     </ul>
   </nav>
 
@@ -32,19 +31,14 @@
     </div>
 
     <div class="form-group">
-  <label for="fieldInput">Field/Expertise:</label>
-  <input type="text" id="fieldInput" placeholder="Start typing your field..." required>
-  <ul id="fieldList" class="field-list"></ul>
-     </div>
+      <label for="fieldInput">Field/Expertise:</label>
+      <input type="text" id="fieldInput" placeholder="Start typing your field..." required>
+      <ul id="fieldList" class="field-list"></ul>
+    </div>
 
     <div class="form-group">
       <label for="academicLink">Link to academic profile (Google Scholar, Archive, etc.):</label>
       <input type="url" id="academicLink">
-    </div>
-
-    <div class="form-group">
-      <label for="researchAreas">Areas of research/interest:</label>
-      <input type="text" id="researchAreas" placeholder="Separate with commas">
     </div>
 
     <div class="form-group">
@@ -74,27 +68,4 @@
     </div>
 
     <div class="form-group">
-      <label for="pfp">Profile Picture URL:</label>
-      <input type="url" id="pfp">
-    <div class="pfp-preview-container">
-    <img id="pfpPreview" src="" alt="Profile Preview">
-   </div>
-    </div>
-
-    <div class="form-group">
-      <label for="bio">Short Bio:</label>
-      <textarea id="bio" rows="4" placeholder="Write a short bio (Optional)"></textarea>
-    </div>
-
-    <button type="submit">Register</button>
-  </form>
-
-  <p id="message"></p>
-  <p id="haveAccount">
-    Already have an account? <a href="login.html">Login here</a>
-  </p>
-</main>
-
-  <script src="scripts/register.js"></script>
-</body>
-</html>
+      <label for="pfp">Profile Pictur

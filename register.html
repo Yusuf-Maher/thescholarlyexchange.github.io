@@ -5,21 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register</title>
   <link rel="stylesheet" href="style.css">
-
 </head>
 <body>
   <nav class="navbar">
     <ul>
-    <ul class="nav-left">
       <li><a href="index.html">Home</a></li>
       <li><a href="login.html">Login</a></li>
       <li><a href="register.html">Register</a></li>
       <li><a href="profile.html">Profile</a></li>
-      <li><a href="register.html" class="active">Register</a></li>
     </ul>
   </nav>
 
-<h2>Register</h2>
+ <main>
+  <h2>Register</h2>
+  <form id="registerForm">
+
+    <div class="form-group">
+      <label for="username">Username:</label>
+      <input type="text" id="username" required>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input type="password" id="password" required>
+      <p id="passwordMessage" style="color:red; font-size:14px;"></p>
     </div>
 
     <div class="form-group">
@@ -27,10 +36,6 @@
   <input type="text" id="fieldInput" placeholder="Start typing your field..." required>
   <ul id="fieldList" class="field-list"></ul>
      </div>
-      <label for="fieldInput">Field/Expertise:</label>
-      <input type="text" id="fieldInput" placeholder="Start typing your field..." required>
-      <ul id="fieldList" class="field-list"></ul>
-    </div>
 
     <div class="form-group">
       <label for="academicLink">Link to academic profile (Google Scholar, Archive, etc.):</label>
@@ -45,7 +50,27 @@
     <div class="form-group">
       <label for="workplace">Workplace / Employment:</label>
       <input type="text" id="workplace">
- <h2>Register</h2>
+    </div>
+
+    <div class="form-group">
+      <label for="educationLevel">Level of education:</label>
+      <select id="educationLevel">
+        <option value="">Select level</option>
+        <option value="Bachelor">Bachelor</option>
+        <option value="Master">Master</option>
+        <option value="PhD">PhD</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="researcherId">ORCID / Researcher ID:</label>
+      <input type="text" id="researcherId">
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email (will not be shown publicly):</label>
+      <input type="email" id="email">
     </div>
 
     <div class="form-group">

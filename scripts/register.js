@@ -1,6 +1,9 @@
 
 let users = JSON.parse(localStorage.getItem("users")) || [];
 
+const fieldInput = document.getElementById("fieldInput");
+const fieldList = document.getElementById("fieldList");
+
 // Searchable list of fields
 const fields = [
   // Astrophysics
@@ -225,11 +228,6 @@ document.addEventListener("click", (e) => {
     fieldList.style.display = "none";
   }
 });
-
-
-const fieldInput = document.getElementById("fieldInput");
-const fieldList = document.getElementById("fieldList");
-
 
 const passwordInput = document.getElementById("password");
 const passwordMessage = document.getElementById("passwordMessage");

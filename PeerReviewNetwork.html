@@ -17,56 +17,56 @@
             <li><a href="register.html">Register</a></li>
         </ul>
     </nav>
-
-    <div class="container">
-        <h1>Peer Review Network</h1>
-        <button onclick="toggleRev()">Request Review</button>
-        
-        <!-- Table to display requests -->
-        <div id="requestsList">
-            <h3><u>Current Requests</u></h3>
-            <table id="requestsTable">
-                <thead>
-                    <tr>
-                        <th>Username</th>
-                        <th>Title</th>
-                        <th>Paper Link</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="requests">
-                    <!-- Requests will be added here -->
-                </tbody>
-            </table>
+    <main>
+        <div class="container">
+            <h1>Peer Review Network</h1>
+            <button onclick="toggleRev()">Request Review</button>
+            
+            <!-- Table to display requests -->
+            <div id="requestsList">
+                <h3><u>Current Requests</u></h3>
+                <table id="requestsTable">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Title</th>
+                            <th>Paper Link</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="requests">
+                        <!-- Requests will be added here -->
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-
-    <!-- Popup for creating request -->
-    <div class="popup">
-        <form class="spacing" onsubmit="addRequest(event)">
-            <label for="paperTitle">Title of Paper</label>
-            <input type="text" id="paperTitle" required>
-            <label for="paperLink">Link of paper</label>
-            <input type="text" id="paperLink" required>
-            <label for="description">Describe your research paper</label>
-            <textarea id="description" required></textarea>
-            <button type="submit">Submit</button>
-        </form>
-        <button type="button" onclick="toggleRev()">Cancel</button>
-    </div>
-
-    <!-- Popup for viewing request details -->
-    <div class="popup-view">
-        <h3>Description of Paper</h3>
-        <div class="view-content">
-            <p id="viewDescription"></p>
+    
+        <!-- Popup for creating request -->
+        <div class="popup">
+            <form class="spacing" onsubmit="addRequest(event)">
+                <label for="paperTitle">Title of Paper</label>
+                <input type="text" id="paperTitle" required>
+                <label for="paperLink">Link of paper</label>
+                <input type="text" id="paperLink" required>
+                <label for="description">Describe your research paper</label>
+                <textarea id="description" required></textarea>
+                <button type="submit">Submit</button>
+            </form>
+            <button type="button" onclick="toggleRev()">Cancel</button>
         </div>
-        <div class="view-buttons">
-            <button onclick="acceptFromView()">Accept</button>
-            <button onclick="toggleView()">Close</button>
+    
+        <!-- Popup for viewing request details -->
+        <div class="popup-view">
+            <h3>Description of Paper</h3>
+            <div class="view-content">
+                <p id="viewDescription"></p>
+            </div>
+            <div class="view-buttons">
+                <button onclick="acceptFromView()">Accept</button>
+                <button onclick="toggleView()">Close</button>
+            </div>
         </div>
-    </div>
-
+    </main>
     <script src="scripts/peerReview.js"></script>
 </body>
 </html>

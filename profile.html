@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Profile</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="profile.html" class="active">Profile</a></li>
+      <li><a href="logout.html" id="logoutBtn">Logout</a></li>
+    </ul>
+  </nav>
+
+  <main class="profile-container">
+    <div class="profile-card">
+      <img id="profilePic" class="profile-pic" src="" alt="Profile Picture">
+      <h2 id="usernameDisplay"></h2>
+      <p><strong>Field/Expertise:</strong> <span id="fieldDisplay"></span></p>
+      <p><strong>Workplace:</strong> <span id="workplaceDisplay"></span></p>
+      <p><strong>Education:</strong> <span id="educationDisplay"></span></p>
+      <p><strong>Research Areas:</strong> <span id="researchDisplay"></span></p>
+      <p><strong>Academic Link:</strong> <a id="academicLinkDisplay" href="#" target="_blank">View</a></p>
+      <p><strong>Bio:</strong> <span id="bioDisplay"></span></p>
+    </div>
+  </main>
+
+  <script src="scripts/profile.js"></script>
+</body>
+</html>

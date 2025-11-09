@@ -3,6 +3,10 @@ let users = JSON.parse(localStorage.getItem("users")) || [];
 
 const fieldInput = document.getElementById("fieldInput");
 const fieldList = document.getElementById("fieldList");
+const passwordInput = document.getElementById("password");
+const passwordMessage = document.getElementById("passwordMessage");
+const registerForm = document.getElementById("registerForm");
+const message = document.getElementById("message");
 
 // Searchable list of fields
 const fields = [
@@ -194,6 +198,14 @@ const fields = [
   "Theoretical Economics"
 ];
 
+passwordInput.addEventListener("input", () => {
+  if (passwordInput.value.length < 8) {
+    passwordMessage.textContent = "Password must be at least 8 characters!";
+  } else {
+    passwordMessage.textContent = "";
+  }
+});
+
 fieldInput.addEventListener("input", () => {
   const query = fieldInput.value.toLowerCase();
   fieldList.innerHTML = "";
@@ -229,20 +241,9 @@ document.addEventListener("click", (e) => {
   }
 });
 
-const passwordInput = document.getElementById("password");
-const passwordMessage = document.getElementById("passwordMessage");
-
-passwordInput.addEventListener("input", () => {
-  if (passwordInput.value.length < 8) {
-    passwordMessage.textContent = "Password must be at least 8 characters!";
-  } else {
-    passwordMessage.textContent = "";
-  }
-});
-
-document.getElementById("registerForm").addEventListener("submit", function(e) {
+registerForm.addEventListener("submit", e => {
   e.preventDefault();
-
+  
   const username = document.getElementById("username").value.trim();
   const password = document.getElementById("password").value.trim();
   const field = fieldInput.value.trim();

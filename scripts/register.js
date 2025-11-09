@@ -1,6 +1,18 @@
 // Load existing users from localStorage or start with an empty array
 let users = JSON.parse(localStorage.getItem("users")) || [];
 
+// Real-time password check
+const passwordInput = document.getElementById("password");
+const passwordMessage = document.getElementById("passwordMessage");
+
+passwordInput.addEventListener("input", () => {
+  if (passwordInput.value.length < 8) {
+    passwordMessage.textContent = "Password must be at least 8 characters!";
+  } else {
+    passwordMessage.textContent = ""; // clears message when password is long enough
+  }
+});
+
 document.getElementById("registerForm").addEventListener("submit", function(e) {
   e.preventDefault(); // prevent page reload
 

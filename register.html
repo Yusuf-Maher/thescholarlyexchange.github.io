@@ -40,15 +40,10 @@
     </div>
 
     <div class="form-group">
-      <label for="field">Field/Expertise:</label>
-      <select id="field" required>
-        <option value="">Select field</option>
-        <option value="Biology">Biology</option>
-        <option value="Chemistry">Chemistry</option>
-        <option value="Physics">Physics</option>
-        <option value="Literature">Literature</option>
-      </select>
-    </div>
+  <label for="fieldInput">Field/Expertise:</label>
+  <input type="text" id="fieldInput" placeholder="Start typing your field..." required>
+  <ul id="fieldList" class="field-list"></ul>
+     </div>
 
     <div class="form-group">
       <label for="academicLink">Link to academic profile (Google Scholar, Archive, etc.):</label>
@@ -93,7 +88,7 @@
 
     <div class="form-group">
       <label for="bio">Short Bio:</label>
-      <textarea id="bio" rows="4" placeholder="Write a short bio"></textarea>
+      <textarea id="bio" rows="4" placeholder="Write a short bio (Optional)"></textarea>
     </div>
 
     <button type="submit">Register</button>

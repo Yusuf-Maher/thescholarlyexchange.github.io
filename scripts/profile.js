@@ -1,21 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const user = JSON.parse(localStorage.getItem("loggedInUser"));
-  const users = JSON.parse(localStorage.getItem("users")) || [];
+const loggedInUsername = localStorage.getItem("loggedInUser"); // string
+const users = JSON.parse(localStorage.getItem("users")) || [];
 
-  if (!user) {
-    // If not logged in, redirect to login page
-    window.location.href = "login.html";
-    return;
-  }
+if (!loggedInUsername) {
+  // If not logged in, redirect to login page
+  window.location.href = "login.html";
+  return;
+}
 
-  // Find the full user data from the list
-  const currentUser = users.find(u => u.username === user.username);
+// Find the full user data from the list
+const currentUser = users.find(u => u.username === loggedInUsername);
 
-  if (!currentUser) {
-    alert("User data not found.");
-    window.location.href = "login.html";
-    return;
-  }
+if (!currentUser) {
+  alert("User data not found.");
+  window.location.href = "login.html";
+  return;
+}
+
 
   // Fill in the profile fields
   document.getElementById("profilePic").src = currentUser.pfp || "default-pfp.png";

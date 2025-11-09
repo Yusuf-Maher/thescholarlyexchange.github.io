@@ -2,95 +2,118 @@ let currentQuery = "";
 let currentStart = 0;
 const RESULTS_PER_PAGE = 5;
 let isFetching = false;
+let allPapers = []; // store all loaded papers
 
-const container = document.getElementById("arxiv-results");
-const loadMoreBtn = document.getElementById("loadMoreBtn");
+document.addEventListener("DOMContentLoaded", () => {
+  const container = document.getElementById("arxiv-results");
+  const loadMoreBtn = document.getElementById("loadMoreBtn");
+  const searchBar = document.getElementById("searchBar");
+  const sortSelect = document.getElementById("sortSelect");
 
-// --- Fetch function ---
-async function fetchArxivPapers(query, append = false) {
-  if (!query) {
-    container.innerHTML = "";
-    loadMoreBtn.style.display = "none";
-    return;
-  }
-
-  // Reset container if it's a new query
-  if (!append || query !== currentQuery) {
-    currentStart = 0;
-    container.innerHTML = "";
-  }
-
-  currentQuery = query;
-  isFetching = true;
-
-  const url = `https://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(query)}&start=${currentStart}&max_results=${RESULTS_PER_PAGE}`;
-
-  try {
-    const response = await fetch(url);
-    const xmlText = await response.text();
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(xmlText, "text/xml");
-    const entries = xml.getElementsByTagName("entry");
-
-    if (entries.length === 0 && currentStart === 0) {
-      container.innerHTML = "<p>No results found.</p>";
+  // --- Fetch function ---
+  async function fetchArxivPapers(query, append = false) {
+    if (!query) {
+      container.innerHTML = "";
       loadMoreBtn.style.display = "none";
-      isFetching = false;
+      allPapers = [];
       return;
     }
 
-    for (let entry of entries) {
-      const title = entry.getElementsByTagName("title")[0]?.textContent.trim() || "No title";
-      const summary = entry.getElementsByTagName("summary")[0]?.textContent.trim() || "No summary";
-      const link = entry.getElementsByTagName("id")[0]?.textContent.trim();
-      const pdfLink = link?.replace("/abs/", "/pdf/") + ".pdf";
-      const authors = Array.from(entry.getElementsByTagName("author"))
-        .map(a => a.getElementsByTagName("name")[0]?.textContent)
-        .join(", ");
+    // Reset if new query
+    if (!append || query !== currentQuery) {
+      currentStart = 0;
+      container.innerHTML = "";
+      allPapers = [];
+    }
 
-      const highlightedTitle = highlightMatch(title, query);
-      const highlightedSummary = highlightMatch(summary.slice(0, 250), query);
+    currentQuery = query;
+    isFetching = true;
+
+    const url = `https://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(query)}&start=${currentStart}&max_results=${RESULTS_PER_PAGE}`;
+
+    try {
+      const response = await fetch(url);
+      const xmlText = await response.text();
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(xmlText, "text/xml");
+      const entries = xml.getElementsByTagName("entry");
+
+      if (entries.length === 0 && currentStart === 0) {
+        container.innerHTML = "<p>No results found.</p>";
+        loadMoreBtn.style.display = "none";
+        isFetching = false;
+        return;
+      }
+
+      for (let entry of entries) {
+        const paper = {
+          title: entry.getElementsByTagName("title")[0]?.textContent.trim() || "No title",
+          summary: entry.getElementsByTagName("summary")[0]?.textContent.trim() || "No summary",
+          link: entry.getElementsByTagName("id")[0]?.textContent.trim(),
+          pdfLink: entry.getElementsByTagName("id")[0]?.textContent.trim().replace("/abs/", "/pdf/") + ".pdf",
+          authors: Array.from(entry.getElementsByTagName("author"))
+            .map(a => a.getElementsByTagName("name")[0]?.textContent)
+            .join(", "),
+          published: entry.getElementsByTagName("published")[0]?.textContent || "1900-01-01"
+        };
+        allPapers.push(paper);
+      }
+
+      currentStart += RESULTS_PER_PAGE;
+      isFetching = false;
+
+      renderPapers(); // render sorted papers
+
+      // Show/hide Load More button
+      loadMoreBtn.style.display = entries.length === RESULTS_PER_PAGE ? "block" : "none";
+    } catch (error) {
+      console.error("Error fetching arXiv papers:", error);
+      container.innerHTML = "<p>Error loading results.</p>";
+      loadMoreBtn.style.display = "none";
+      isFetching = false;
+    }
+  }
+
+  // --- Render function ---
+  function renderPapers() {
+    const query = currentQuery;
+    let papersToRender = [...allPapers];
+
+    // Sort based on selection
+    const sortValue = sortSelect.value;
+    if (sortValue === "date") {
+      papersToRender.sort((a, b) => new Date(b.published) - new Date(a.published));
+    } else if (sortValue === "author") {
+      papersToRender.sort((a, b) => a.authors.localeCompare(b.authors));
+    } else if (sortValue === "title") {
+      papersToRender.sort((a, b) => a.title.localeCompare(b.title));
+    }
+
+    container.innerHTML = "";
+    for (let paper of papersToRender) {
+      const highlightedTitle = highlightMatch(paper.title, query);
+      const highlightedSummary = highlightMatch(paper.summary.slice(0, 250), query);
 
       container.innerHTML += `
         <div class="arxiv-card" style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
           <h3>${highlightedTitle}</h3>
-          <p><strong>Authors:</strong> ${authors}</p>
+          <p><strong>Authors:</strong> ${paper.authors}</p>
           <p>${highlightedSummary}...</p>
-          <a href="${pdfLink}" target="_blank">📄 View PDF</a> |
-          <a href="${link}" target="_blank">🔗 View on arXiv</a>
+          <a href="${paper.pdfLink}" target="_blank">📄 View PDF</a> |
+          <a href="${paper.link}" target="_blank">🔗 View on arXiv</a>
         </div>
       `;
     }
-
-    // ✅ Show or hide Load More button
-    if (entries.length === RESULTS_PER_PAGE) {
-      loadMoreBtn.style.display = "block"; // show if more likely available
-    } else {
-      loadMoreBtn.style.display = "none";  // hide if fewer results
-    }
-
-    currentStart += RESULTS_PER_PAGE;
-    isFetching = false;
-
-  } catch (error) {
-    console.error("Error fetching arXiv papers:", error);
-    container.innerHTML = "<p>Error loading results.</p>";
-    loadMoreBtn.style.display = "none";
-    isFetching = false;
   }
-}
 
-// --- Highlight function ---
-function highlightMatch(text, keyword) {
-  if (!keyword) return text;
-  const regex = new RegExp(`(${keyword})`, "gi");
-  return text.replace(regex, "<mark>$1</mark>");
-}
+  // --- Highlight function ---
+  function highlightMatch(text, keyword) {
+    if (!keyword) return text;
+    const regex = new RegExp(`(${keyword})`, "gi");
+    return text.replace(regex, "<mark>$1</mark>");
+  }
 
-// --- Event listeners ---
-document.addEventListener("DOMContentLoaded", () => {
-  const searchBar = document.getElementById("searchBar");
-
+  // --- Event listeners ---
   searchBar.addEventListener("input", (e) => {
     const query = e.target.value.trim();
     if (query) fetchArxivPapers(query);
@@ -100,7 +123,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!isFetching) fetchArxivPapers(currentQuery, true);
   });
 
-  // Optional default load
+  sortSelect.addEventListener("change", () => {
+    renderPapers();
+  });
+
+  // Optional: default load
   fetchArxivPapers("dopamine");
 });
+
 

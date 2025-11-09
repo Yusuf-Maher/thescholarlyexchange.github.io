@@ -305,6 +305,54 @@ h1{
   cursor: pointer;    
   border: 2px solid white; /* optional */
 }
+/* Navbar styles */
+.navbar {
+  background-color: #333;
+  overflow: hidden;
+}
+
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.navbar li {
+  margin-right: 20px;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  padding: 14px 10px;
+  display: inline-block;
+}
+
+/* Hover effect for navbar links */
+.navbar a:hover {
+  background-color: #575757;
+  border-radius: 4px;
+}
+
+/* Profile picture in navbar */
+.navbar-profile-pic {
+  width: 40px;         /* size of profile pic */
+  height: 40px;
+  border-radius: 50%;  /* makes it circular */
+  object-fit: cover;   /* ensures image fits the circle */
+  vertical-align: middle;
+  border: 2px solid white; /* optional border */
+  transition: transform 0.2s;
+}
+
+/* Hover effect for profile picture */
+.navbar-profile-pic:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
 
 .navbar-profile-pic:hover {
   transform: scale(1.1);

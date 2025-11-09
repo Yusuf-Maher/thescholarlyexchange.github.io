@@ -3,26 +3,28 @@ document.addEventListener("DOMContentLoaded", () => {
   const users = JSON.parse(localStorage.getItem("users")) || [];
 
   if (!user) {
+    // If not logged in, redirect to login page
     window.location.href = "login.html";
     return;
   }
 
+  // Find the full user data from the list
   const currentUser = users.find(u => u.username === user.username);
+
   if (!currentUser) {
-    alert("User not found.");
+    alert("User data not found.");
     window.location.href = "login.html";
     return;
   }
 
-  const defaultPfp = "default-profile.png";
-
-  document.getElementById("profilePic").src = currentUser.pfp || defaultPfp;
+  // Fill in the profile fields
+  document.getElementById("profilePic").src = currentUser.pfp || "default-pfp.png";
   document.getElementById("usernameDisplay").textContent = currentUser.username;
   document.getElementById("fieldDisplay").textContent = currentUser.field || "Not specified";
   document.getElementById("workplaceDisplay").textContent = currentUser.workplace || "N/A";
-  document.getElementById("educationDisplay").textContent = currentUser.educationLevel || "N/A";
-  document.getElementById("bioDisplay").textContent = currentUser.bio || "No bio yet.";
-
+  document.getElementById("educationDisplay").textContent = currentUser.education || "N/A";
+  document.getElementById("researchDisplay").textContent = currentUser.researchAreas || "N/A";
+  
   const link = document.getElementById("academicLinkDisplay");
   if (currentUser.academicLink) {
     link.href = currentUser.academicLink;
@@ -32,15 +34,9 @@ document.addEventListener("DOMContentLoaded", () => {
     link.removeAttribute("href");
   }
 
-  // Navbar profile picture
-  const navPic = document.getElementById("navProfilePic");
-  navPic.src = currentUser.pfp || defaultPfp;
+  document.getElementById("bioDisplay").textContent = currentUser.bio || "No bio yet.";
 
-  const dropdown = document.getElementById("profileDropdown");
-  navPic.addEventListener("click", () => {
-    dropdown.classList.toggle("show");
-  });
-
+  // Logout functionality
   document.getElementById("logoutBtn").addEventListener("click", () => {
     localStorage.removeItem("loggedInUser");
     window.location.href = "login.html";

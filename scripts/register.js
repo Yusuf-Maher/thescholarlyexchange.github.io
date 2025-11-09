@@ -7,6 +7,12 @@ const passwordInput = document.getElementById("password");
 const passwordMessage = document.getElementById("passwordMessage");
 const registerForm = document.getElementById("registerForm");
 const message = document.getElementById("message");
+const pfpInput = document.getElementById("pfp");
+const pfpPreview = document.getElementById("pfpPreview");
+
+pfpInput.addEventListener("input", () => {
+  pfpPreview.src = pfpInput.value || "";
+});
 
 // Searchable list of fields
 const fields = [

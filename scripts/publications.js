@@ -1,18 +1,20 @@
 let currentQuery = "";
 let currentStart = 0;
 const RESULTS_PER_PAGE = 5;
-let isFetching = false; // prevent double fetches
+let isFetching = false;
+
+const container = document.getElementById("arxiv-results");
+const loadMoreBtn = document.getElementById("loadMoreBtn");
 
 // --- Fetch function ---
 async function fetchArxivPapers(query, append = false) {
-  const container = document.getElementById("arxiv-results");
-
   if (!query) {
     container.innerHTML = "";
+    loadMoreBtn.style.display = "none";
     return;
   }
 
-  // Reset if new query
+  // Reset container if it's a new query
   if (!append || query !== currentQuery) {
     currentStart = 0;
     container.innerHTML = "";
@@ -32,6 +34,7 @@ async function fetchArxivPapers(query, append = false) {
 
     if (entries.length === 0 && currentStart === 0) {
       container.innerHTML = "<p>No results found.</p>";
+      loadMoreBtn.style.display = "none";
       isFetching = false;
       return;
     }
@@ -59,13 +62,20 @@ async function fetchArxivPapers(query, append = false) {
       `;
     }
 
-    // Increment start for next page
+    // ✅ Show or hide Load More button
+    if (entries.length === RESULTS_PER_PAGE) {
+      loadMoreBtn.style.display = "block"; // show if more likely available
+    } else {
+      loadMoreBtn.style.display = "none";  // hide if fewer results
+    }
+
     currentStart += RESULTS_PER_PAGE;
     isFetching = false;
 
   } catch (error) {
     console.error("Error fetching arXiv papers:", error);
     container.innerHTML = "<p>Error loading results.</p>";
+    loadMoreBtn.style.display = "none";
     isFetching = false;
   }
 }
@@ -80,28 +90,17 @@ function highlightMatch(text, keyword) {
 // --- Event listeners ---
 document.addEventListener("DOMContentLoaded", () => {
   const searchBar = document.getElementById("searchBar");
-  const container = document.getElementById("arxiv-results");
 
   searchBar.addEventListener("input", (e) => {
     const query = e.target.value.trim();
     if (query) fetchArxivPapers(query);
   });
 
-  // Infinite scroll
-  container.addEventListener("scroll", () => {
-    if (isFetching) return;
-
-    const scrollBottom = container.scrollTop + container.clientHeight;
-    const scrollHeight = container.scrollHeight;
-
-    // Trigger when scrolled to bottom
-    if (scrollBottom >= scrollHeight - 50) {
-      fetchArxivPapers(currentQuery, true); // append next results
-    }
+  loadMoreBtn.addEventListener("click", () => {
+    if (!isFetching) fetchArxivPapers(currentQuery, true);
   });
 
-  // Default load
+  // Optional default load
   fetchArxivPapers("dopamine");
 });
-
 

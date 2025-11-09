@@ -2,13 +2,20 @@ let currentQuery = "";
 let currentStart = 0;
 const RESULTS_PER_PAGE = 5;
 let isFetching = false;
-let allPapers = []; // store all loaded papers
+let allPapers = [];
 
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("arxiv-results");
   const loadMoreBtn = document.getElementById("loadMoreBtn");
   const searchBar = document.getElementById("searchBar");
   const sortSelect = document.getElementById("sortSelect");
+
+  // --- Highlight function ---
+  function highlightMatch(text, keyword) {
+    if (!keyword) return text;
+    const regex = new RegExp(`(${keyword})`, "gi");
+    return text.replace(regex, "<mark>$1</mark>");
+  }
 
   // --- Fetch function ---
   async function fetchArxivPapers(query, append = false) {
@@ -19,7 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Reset if new query
     if (!append || query !== currentQuery) {
       currentStart = 0;
       container.innerHTML = "";
@@ -63,8 +69,6 @@ document.addEventListener("DOMContentLoaded", () => {
       isFetching = false;
 
       renderPapers(); // render sorted papers
-
-      // Show/hide Load More button
       loadMoreBtn.style.display = entries.length === RESULTS_PER_PAGE ? "block" : "none";
     } catch (error) {
       console.error("Error fetching arXiv papers:", error);
@@ -76,38 +80,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- Render function ---
   function renderPapers() {
-  const query = currentQuery;
-  let papersToRender = [...allPapers];
+    const query = currentQuery;
+    let papersToRender = [...allPapers];
 
-  const sortValue = sortSelect.value;
-  if (sortValue === "newest") {
-    papersToRender.sort((a, b) => new Date(b.published) - new Date(a.published));
-  } else if (sortValue === "oldest") {
-    papersToRender.sort((a, b) => new Date(a.published) - new Date(b.published));
-  }
+    const sortValue = sortSelect.value;
+    if (sortValue === "newest") {
+      papersToRender.sort((a, b) => new Date(b.published) - new Date(a.published));
+    } else if (sortValue === "oldest") {
+      papersToRender.sort((a, b) => new Date(a.published) - new Date(b.published));
+    }
 
-  container.innerHTML = "";
-  for (let paper of papersToRender) {
-    const highlightedTitle = highlightMatch(paper.title, query);
-    const highlightedSummary = highlightMatch(paper.summary.slice(0, 250), query);
+    container.innerHTML = "";
+    for (let paper of papersToRender) {
+      const highlightedTitle = highlightMatch(paper.title, query);
+      const highlightedSummary = highlightMatch(paper.summary.slice(0, 250), query);
 
-    container.innerHTML += `
-      <div class="arxiv-card" style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
-        <h3>${highlightedTitle}</h3>
-        <p><strong>Authors:</strong> ${paper.authors}</p>
-        <p>${highlightedSummary}...</p>
-        <a href="${paper.pdfLink}" target="_blank">📄 View PDF</a> |
-        <a href="${paper.link}" target="_blank">🔗 View on arXiv</a>
-      </div>
-    `;
-  }
-}
+      container.innerHTML += `
+        <div class="arxiv-card" style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+          <h3>${highlightedTitle}</h3>
+          <p><strong>Authors:</strong> ${paper.authors}</p>
+          <p>${highlightedSummary}...</p>
+          <a href="${paper.pdfLink}" target="_blank">📄 View PDF</a> |
+          <a href="${paper.link}" target="_blank">🔗 View on arXiv</a>
+        </div>
+      `;
+    }
 
-  // --- Highlight function ---
-  function highlightMatch(text, keyword) {
-    if (!keyword) return text;
-    const regex = new RegExp(`(${keyword})`, "gi");
-    return text.replace(regex, "<mark>$1</mark>");
+    if (window.MathJax) {
+      MathJax.typesetPromise([container]).catch((err) => console.log(err.message));
+    }
   }
 
   // --- Event listeners ---
@@ -124,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderPapers();
   });
 
-  // Optional: default load
+  // Default load
   fetchArxivPapers("dopamine");
 });
 

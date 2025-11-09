@@ -137,17 +137,24 @@ fieldInput.addEventListener("focus", () => {
   fields.forEach(f => {
     const li = document.createElement("li");
     li.textContent = f;
-    li.addEventListener("click", () => {
-      fieldInput.value = f;
-      fieldList.style.display = "none";
-    });
+
+    // Make section dividers non-clickable
+    if (!f.startsWith("----") || !f.endsWith("----")) {
+      li.addEventListener("click", () => {
+        fieldInput.value = f;
+        fieldList.style.display = "none";
+      });
+    } else {
+      li.style.fontWeight = "bold"; 
+      li.style.cursor = "default"; 
+    }
+
     fieldList.appendChild(li);
   });
 
   fieldList.style.display = "block";
 });
 
-// Filter as you type
 fieldInput.addEventListener("input", () => {
   const query = fieldInput.value.toLowerCase();
   fieldList.innerHTML = "";
@@ -162,10 +169,17 @@ fieldInput.addEventListener("input", () => {
   filtered.forEach(f => {
     const li = document.createElement("li");
     li.textContent = f;
-    li.addEventListener("click", () => {
-      fieldInput.value = f;
-      fieldList.style.display = "none";
-    });
+
+    if (!f.startsWith("----") || !f.endsWith("----")) {
+      li.addEventListener("click", () => {
+        fieldInput.value = f;
+        fieldList.style.display = "none";
+      });
+    } else {
+      li.style.fontWeight = "bold";
+      li.style.cursor = "default";
+    }
+
     fieldList.appendChild(li);
   });
 

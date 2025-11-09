@@ -76,35 +76,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- Render function ---
   function renderPapers() {
-    const query = currentQuery;
-    let papersToRender = [...allPapers];
+  const query = currentQuery;
+  let papersToRender = [...allPapers];
 
-    // Sort based on selection
-    const sortValue = sortSelect.value;
-    if (sortValue === "date") {
-      papersToRender.sort((a, b) => new Date(b.published) - new Date(a.published));
-    } else if (sortValue === "author") {
-      papersToRender.sort((a, b) => a.authors.localeCompare(b.authors));
-    } else if (sortValue === "title") {
-      papersToRender.sort((a, b) => a.title.localeCompare(b.title));
-    }
-
-    container.innerHTML = "";
-    for (let paper of papersToRender) {
-      const highlightedTitle = highlightMatch(paper.title, query);
-      const highlightedSummary = highlightMatch(paper.summary.slice(0, 250), query);
-
-      container.innerHTML += `
-        <div class="arxiv-card" style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
-          <h3>${highlightedTitle}</h3>
-          <p><strong>Authors:</strong> ${paper.authors}</p>
-          <p>${highlightedSummary}...</p>
-          <a href="${paper.pdfLink}" target="_blank">📄 View PDF</a> |
-          <a href="${paper.link}" target="_blank">🔗 View on arXiv</a>
-        </div>
-      `;
-    }
+  const sortValue = sortSelect.value;
+  if (sortValue === "newest") {
+    papersToRender.sort((a, b) => new Date(b.published) - new Date(a.published));
+  } else if (sortValue === "oldest") {
+    papersToRender.sort((a, b) => new Date(a.published) - new Date(b.published));
   }
+
+  container.innerHTML = "";
+  for (let paper of papersToRender) {
+    const highlightedTitle = highlightMatch(paper.title, query);
+    const highlightedSummary = highlightMatch(paper.summary.slice(0, 250), query);
+
+    container.innerHTML += `
+      <div class="arxiv-card" style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+        <h3>${highlightedTitle}</h3>
+        <p><strong>Authors:</strong> ${paper.authors}</p>
+        <p>${highlightedSummary}...</p>
+        <a href="${paper.pdfLink}" target="_blank">📄 View PDF</a> |
+        <a href="${paper.link}" target="_blank">🔗 View on arXiv</a>
+      </div>
+    `;
+  }
+}
 
   // --- Highlight function ---
   function highlightMatch(text, keyword) {

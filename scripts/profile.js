@@ -1,15 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const user = JSON.parse(localStorage.getItem("loggedInUser"));
+  // Get the logged-in username (string)
+  const loggedInUsername = localStorage.getItem("loggedInUser");
   const users = JSON.parse(localStorage.getItem("users")) || [];
 
-  if (!user) {
+  if (!loggedInUsername) {
     // If not logged in, redirect to login page
     window.location.href = "login.html";
     return;
   }
 
-  // Find the full user data from the list
-  const currentUser = users.find(u => u.username === user.username);
+  // Find the full user data
+  const currentUser = users.find(u => u.username === loggedInUsername);
 
   if (!currentUser) {
     alert("User data not found.");
@@ -18,13 +19,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Fill in the profile fields
-  document.getElementById("profilePic").src = currentUser.pfp || "default-pfp.png";
+  document.getElementById("profilePic").src = currentUser.pfp || "default-profile.png";
   document.getElementById("usernameDisplay").textContent = currentUser.username;
   document.getElementById("fieldDisplay").textContent = currentUser.field || "Not specified";
   document.getElementById("workplaceDisplay").textContent = currentUser.workplace || "N/A";
-  document.getElementById("educationDisplay").textContent = currentUser.education || "N/A";
-  document.getElementById("researchDisplay").textContent = currentUser.researchAreas || "N/A";
-  
+  document.getElementById("educationDisplay").textContent = currentUser.educationLevel || "N/A";
+
   const link = document.getElementById("academicLinkDisplay");
   if (currentUser.academicLink) {
     link.href = currentUser.academicLink;

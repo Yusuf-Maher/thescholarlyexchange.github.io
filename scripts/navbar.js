@@ -1,19 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
   const users = JSON.parse(localStorage.getItem("users")) || [];
-  const loggedInUser = localStorage.getItem("loggedInUser");
+  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
 
   const loginLink = document.getElementById("loginLink");
   const registerLink = document.getElementById("registerLink");
-  const profileLink = document.getElementById("profileLink");
+  const profileLink = document.getElementById("profileTab");
   const navbarProfilePic = document.getElementById("navbarProfilePic");
 
-  if (loggedInUser) {
-    const user = users.find(u => u.username === loggedInUser);
+if (navbarProfilePic && loggedInUser) {
+  navbarProfilePic.src = loggedInUser.pfp || "default-profile.png";
+}
 
-    // Show the profile picture
-    if (navbarProfilePic && user) {
-      navbarProfilePic.src = user.pfp || "default-profile.png";
-    }
 
     // Hide login/register links, show profile
     if (loginLink) loginLink.style.display = "none";

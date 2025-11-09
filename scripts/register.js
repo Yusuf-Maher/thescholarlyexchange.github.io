@@ -206,14 +206,26 @@ passwordInput.addEventListener("input", () => {
   }
 });
 
+fieldInput.addEventListener("focus", () => {
+  fieldList.innerHTML = "";
+  
+  fields.forEach(f => {
+    const li = document.createElement("li");
+    li.textContent = f;
+    li.addEventListener("click", () => {
+      fieldInput.value = f;
+      fieldList.style.display = "none";
+    });
+    fieldList.appendChild(li);
+  });
+
+  fieldList.style.display = "block";
+});
+
+// Filter as you type
 fieldInput.addEventListener("input", () => {
   const query = fieldInput.value.toLowerCase();
   fieldList.innerHTML = "";
-
-  if (!query) {
-    fieldList.style.display = "none";
-    return;
-  }
 
   const filtered = fields.filter(f => f.toLowerCase().includes(query));
 
@@ -234,6 +246,7 @@ fieldInput.addEventListener("input", () => {
 
   fieldList.style.display = "block";
 });
+
 
 document.addEventListener("click", (e) => {
   if (!fieldInput.contains(e.target) && !fieldList.contains(e.target)) {
@@ -276,7 +289,6 @@ registerForm.addEventListener("submit", e => {
   users.push({
     username,
     password,
-    role,
     field,
     academicLink,
     researchAreas,

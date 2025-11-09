@@ -8,6 +8,13 @@ document.getElementById("registerForm").addEventListener("submit", function(e) {
   const password = document.getElementById("password").value.trim();
   const message = document.getElementById("message");
 
+   // Check password length
+  if (password.length < 8) {
+    message.textContent = "Password must be at least 8 characters!";
+    message.style.color = "red";
+    return;
+  }
+
   // Check if username already exists
   const userExists = users.find(user => user.username === username);
   if (userExists) {

@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
   sortSelect.addEventListener("change", () => {
     renderPapers();
   });
-
+  fetchArxivPapers("Climate Change");
 });
 
 

@@ -8,19 +8,45 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
 }
 
-.register-container {
+/* Navbar styling */
+.navbar {
+    background-color: #333;
+    overflow: hidden;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.navbar li {
+    margin: 0;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 15px 20px;
+    display: block;
+    transition: background-color 0.3s ease;
+}
+
+.navbar a:hover {
+    background-color: #575757;
+}
+
+/* Main content */
+main {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 40px;
     background: white;
     border-radius: 20px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
-    width: 100%;
-    max-width: 450px;
     animation: slideIn 0.5s ease;
 }
 
@@ -35,37 +61,28 @@ body {
     }
 }
 
-.register-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 40px 30px;
+main h2 {
     text-align: center;
-    color: white;
-}
-
-.register-header h1 {
-    font-size: 28px;
-    margin-bottom: 10px;
+    color: #667eea;
+    font-size: 32px;
+    margin-bottom: 30px;
     font-weight: 600;
 }
 
-.register-header p {
-    font-size: 14px;
-    opacity: 0.9;
-}
-
-.register-form {
-    padding: 40px 30px;
-    max-height: 70vh;
-    overflow-y: auto;
+/* Form styling */
+#registerForm {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .form-group {
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
     position: relative;
 }
 
 .form-group label {
-    display: block;
     margin-bottom: 8px;
     color: #333;
     font-weight: 500;
@@ -73,7 +90,8 @@ body {
 }
 
 .form-group input,
-.form-group select {
+.form-group select,
+.form-group textarea {
     width: 100%;
     padding: 12px 15px;
     border: 2px solid #e0e0e0;
@@ -81,45 +99,56 @@ body {
     font-size: 15px;
     transition: all 0.3s ease;
     background: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .form-group input:focus,
-.form-group select:focus {
+.form-group select:focus,
+.form-group textarea:focus {
     outline: none;
     border-color: #667eea;
     background: white;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
-.form-group input::placeholder {
+.form-group input::placeholder,
+.form-group textarea::placeholder {
     color: #999;
 }
 
-.error-message {
-    color: #e74c3c;
-    font-size: 13px;
-    margin-top: 5px;
-    display: none;
-}
-
-.password-toggle {
-    position: absolute;
-    right: 15px;
-    top: 38px;
-    cursor: pointer;
-    color: #666;
-    user-select: none;
-}
-
-.pfp-upload-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    padding: 20px;
-    background: #f8f9fa;
+/* Field list dropdown */
+.field-list {
+    list-style: none;
+    padding: 0;
+    margin: 5px 0 0 0;
+    border: 2px solid #667eea;
     border-radius: 10px;
-    margin-bottom: 20px;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+    position: absolute;
+    background: white;
+    width: 100%;
+    top: 100%;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.field-list li {
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.field-list li:hover {
+    background-color: #f0f0f0;
+}
+
+/* Profile picture preview */
+.pfp-preview-container {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
 }
 
 #pfpPreview {
@@ -128,57 +157,23 @@ body {
     border-radius: 50%;
     object-fit: cover;
     border: 3px solid #667eea;
-    background: white;
+    background: #f8f9fa;
+    display: none;
 }
 
-.upload-button {
-    position: relative;
-    overflow: hidden;
-    display: inline-block;
+#pfpPreview[src]:not([src=""]) {
+    display: block;
 }
 
-.upload-button input[type="file"] {
-    position: absolute;
-    left: -9999px;
+/* Password message */
+#passwordMessage {
+    color: #e74c3c;
+    font-size: 13px;
+    margin-top: 5px;
 }
 
-.upload-button label {
-    display: inline-block;
-    padding: 10px 20px;
-    background: #667eea;
-    color: white;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.upload-button label:hover {
-    background: #764ba2;
-    transform: translateY(-2px);
-}
-
-.password-strength {
-    height: 4px;
-    background: #e0e0e0;
-    border-radius: 2px;
-    margin-top: 8px;
-    overflow: hidden;
-}
-
-.password-strength-bar {
-    height: 100%;
-    width: 0%;
-    transition: all 0.3s ease;
-    border-radius: 2px;
-}
-
-.strength-weak { background: #e74c3c; width: 33%; }
-.strength-medium { background: #f39c12; width: 66%; }
-.strength-strong { background: #27ae60; width: 100%; }
-
-.register-button {
+/* Submit button */
+#registerForm button[type="submit"] {
     width: 100%;
     padding: 14px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -193,70 +188,77 @@ body {
     margin-top: 10px;
 }
 
-.register-button:hover {
+#registerForm button[type="submit"]:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
 }
 
-.register-button:active {
+#registerForm button[type="submit"]:active {
     transform: translateY(0);
 }
 
-.divider {
-    display: flex;
-    align-items: center;
-    margin: 25px 0;
-    color: #999;
+/* Message styling */
+#message {
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 8px;
     font-size: 14px;
 }
 
-.divider::before,
-.divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: #e0e0e0;
+#message:not(:empty) {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
 }
 
-.divider::before {
-    margin-right: 10px;
-}
-
-.divider::after {
-    margin-left: 10px;
-}
-
-.login-link {
+/* Login link */
+#haveAccount {
     text-align: center;
     margin-top: 20px;
     color: #666;
     font-size: 14px;
 }
 
-.login-link a {
+#haveAccount a {
     color: #667eea;
     text-decoration: none;
     font-weight: 600;
     transition: color 0.3s ease;
 }
 
-.login-link a:hover {
+#haveAccount a:hover {
     color: #764ba2;
     text-decoration: underline;
 }
 
-.back-home {
-    text-align: center;
-    margin-top: 20px;
+/* Scrollbar styling for field list */
+.field-list::-webkit-scrollbar {
+    width: 8px;
 }
 
-.back-home a {
-    color: #999;
-    text-decoration: none;
-    font-size: 14px;
-    transition: color 0.3s ease;
+.field-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
 }
 
-.back-home a:hover {
-    color: #667eea;
+.field-list::-webkit-scrollbar-thumb {
+    background: #667eea;
+    border-radius: 10px;
+}
+
+.field-list::-webkit-scrollbar-thumb:hover {
+    background: #764ba2;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    main {
+        margin: 20px;
+        padding: 30px 20px;
+    }
+    
+    main h2 {
+        font-size: 24px;
+    }
 }

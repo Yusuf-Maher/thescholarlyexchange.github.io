@@ -1,6 +1,10 @@
-// scripts/publications.js
+let currentQuery = "";
+let currentStart = 0;
+const RESULTS_PER_PAGE = 5;
+let isFetching = false; // prevent double fetches
 
-async function fetchArxivPapers(query, maxResults = 5) {
+// --- Fetch function ---
+async function fetchArxivPapers(query, append = false) {
   const container = document.getElementById("arxiv-results");
 
   if (!query) {
@@ -8,20 +12,27 @@ async function fetchArxivPapers(query, maxResults = 5) {
     return;
   }
 
-  const url = `https://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(query)}&start=0&max_results=${maxResults}`;
+  // Reset if new query
+  if (!append || query !== currentQuery) {
+    currentStart = 0;
+    container.innerHTML = "";
+  }
+
+  currentQuery = query;
+  isFetching = true;
+
+  const url = `https://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(query)}&start=${currentStart}&max_results=${RESULTS_PER_PAGE}`;
 
   try {
     const response = await fetch(url);
     const xmlText = await response.text();
-
     const parser = new DOMParser();
     const xml = parser.parseFromString(xmlText, "text/xml");
     const entries = xml.getElementsByTagName("entry");
 
-    container.innerHTML = "";
-
-    if (entries.length === 0) {
+    if (entries.length === 0 && currentStart === 0) {
       container.innerHTML = "<p>No results found.</p>";
+      isFetching = false;
       return;
     }
 
@@ -34,7 +45,6 @@ async function fetchArxivPapers(query, maxResults = 5) {
         .map(a => a.getElementsByTagName("name")[0]?.textContent)
         .join(", ");
 
-      // ✅ Highlight keywords in title and summary
       const highlightedTitle = highlightMatch(title, query);
       const highlightedSummary = highlightMatch(summary.slice(0, 250), query);
 
@@ -48,28 +58,48 @@ async function fetchArxivPapers(query, maxResults = 5) {
         </div>
       `;
     }
+
+    // Increment start for next page
+    currentStart += RESULTS_PER_PAGE;
+    isFetching = false;
+
   } catch (error) {
     console.error("Error fetching arXiv papers:", error);
     container.innerHTML = "<p>Error loading results.</p>";
+    isFetching = false;
   }
 }
 
-// ✅ Highlighting function
+// --- Highlight function ---
 function highlightMatch(text, keyword) {
   if (!keyword) return text;
   const regex = new RegExp(`(${keyword})`, "gi");
   return text.replace(regex, "<mark>$1</mark>");
 }
 
-// --- Event Listener ---
+// --- Event listeners ---
 document.addEventListener("DOMContentLoaded", () => {
   const searchBar = document.getElementById("searchBar");
+  const container = document.getElementById("arxiv-results");
 
   searchBar.addEventListener("input", (e) => {
     const query = e.target.value.trim();
-    fetchArxivPapers(query);
+    if (query) fetchArxivPapers(query);
   });
 
-  // Optional: default topic on page load
+  // Infinite scroll
+  container.addEventListener("scroll", () => {
+    if (isFetching) return;
+
+    const scrollBottom = container.scrollTop + container.clientHeight;
+    const scrollHeight = container.scrollHeight;
+
+    // Trigger when scrolled to bottom
+    if (scrollBottom >= scrollHeight - 50) {
+      fetchArxivPapers(currentQuery, true); // append next results
+    }
+  });
+
+  // Default load
   fetchArxivPapers("dopamine");
 });
